@@ -1,0 +1,132 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DYNAMIC CAUSAL MODELLING - MODEL SPECIFICATION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%--------------------------------------------------------------------------
+% To specify a DCM, you might want to create a template one using the GUI
+% then use spm_dcm_U.m and spm_dcm_voi.m to insert new inputs and new
+% regions. Additionally, this allows for a better understanding of what the 
+% matrices will look like and thus allows for a better understanding of how
+% this script works. The following code creates a DCM file from scratch, 
+% which involves some technical subtleties and a deeper knowledge of the 
+% DCM structure.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% spm_dcm_U.m and spm_dcm_voi.m are located in the Batch editor under
+% SPM/DCM/DCM specification/DCM for fMRI/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+clear DCM
+
+% Change this to whatever your base path for your template subject is- this
+% is where both their SPM.mat file and VOIs are located. 
+data_path = '/data/alecj/YMDD1/1_controls/H0001/1st_level/';
+
+load(fullfile(data_path,'SPM.mat'));
+
+%Change your regions - 
+load(fullfile(data_path,'VOI_OFA_1.mat'),'xY');
+DCM.xY(1) = xY;
+load(fullfile(data_path,'VOI_FFA_1.mat'),'xY');
+DCM.xY(2) = xY;
+load(fullfile(data_path,'VOI_AMY_1.mat'),'xY');
+DCM.xY(3) = xY;
+load(fullfile(data_path,'VOI_MFG_1.mat'),'xY');
+DCM.xY(4) = xY;
+load(fullfile(data_path,'VOI_vmPFC_1.mat'),'xY');
+DCM.xY(5) = xY;
+
+DCM.n = length(DCM.xY);      % number of regions
+DCM.v = length(DCM.xY(1).u); % number of time points
+
+% Time series
+
+DCM.Y.dt  = SPM.xY.RT;
+DCM.Y.X0  = DCM.xY(1).X0;
+for i = 1:DCM.n
+    DCM.Y.y(:,i)  = DCM.xY(i).u;
+    DCM.Y.name{i} = DCM.xY(i).name;
+end
+
+DCM.Y.Q    = spm_Ce(ones(1,DCM.n)*DCM.v);
+
+% Experimental inputs
+
+DCM.U.dt   =  SPM.Sess.U(1).dt;
+DCM.U.name = [SPM.Sess.U.name];
+DCM.U.u    = [SPM.Sess.U(1).u(33:end,1) ...
+              SPM.Sess.U(2).u(33:end,1) ...
+              SPM.Sess.U(3).u(33:end,1)];
+
+DCM.delays = repmat(SPM.xY.RT/2,DCM.n,1);
+DCM.TE     = 0.035;
+
+DCM.options.nonlinear  = 0;
+DCM.options.two_state  = 0;
+DCM.options.stochastic = 0;
+DCM.options.centre    = 0;
+DCM.options.induced    = 0;
+
+% For the specification of MATRIX A - define the a n x n matrix where 
+% n = the number of regions under investigation. In this matrix 1 signifies 
+% a connection while 0 is the lack of a connection e.g. DCM.a = 
+% [1,1,0; 1,1,1; 0,1,1] models the interactions between 3 regions with 
+% connections from region 1 to itself and region 2, region 2 to all other 
+% regions, and from region 3 to itself and region 2.
+% If this is consistent between models only specific once, if not insert
+% when it changes. 
+
+% For the specification of MATRIX B - DCM.b = zeros(n,n,m); sets all values
+% to 0, where n = the number of regions under investigation and m = the
+% number of modulation types. Then turn "on" all modulatory connections of 
+% interest in each model e.g. DCM.b(1,2,2) = 1; models the connection from 
+% region 2 to region 1 for the second modulation 2 (in this case the
+% processing of sad faces). *Note that the order here is the opposite of 
+% what might seem logical, DCM.b(3,1,2) = 1 is from region 1 to region 3, 
+% not 3 to 1.        
+
+% For the specification of MATRIX C- is an n x m matric, again n = the 
+% number of regions under investigation and m = the number of modulation 
+% types. Set value to 1 for regions which receive external input. If this 
+% is consistent between models only specific once, if not insert when it 
+% changes. More details for these matrices are found in Chapter 35 of the 
+% SPM12 manual or here: 
+% https://en.wikibooks.org/wiki/SPM/The_DCM_Equation._4._The_State_Equation#A-_and_B-_Matrices
+
+% For the specification of MATRIX D- was not of interest for our analysis 
+% and thus was set to 0.
+
+% SPECIFICATION DCM 1 - "1x1"
+%-------------------------------------------------------------------------
+DCM.a = [1,1,1,0,0; 1,1,1,1,1; 1,1,1,1,1; 0,1,1,1,1; 0,1,1,1,1];
+DCM.b = zeros(5,5,3); DCM.b(1,2,2) = 1; DCM.b(1,3,2) = 1; DCM.b(2,1,2) = 1; DCM.b(2,3,2) = 1; DCM.b(2,4,2) = 1; DCM.b(2,5,2) = 1; DCM.b(3,1,2) = 1; DCM.b(3,2,2) = 1; DCM.b(3,4,2) = 1; DCM.b(3,5,2) = 1; DCM.b(4,2,2) = 1; DCM.b(4,3,2) = 1; DCM.b(4,5,2) = 1; DCM.b(5,2,2) = 1; DCM.b(5,3,2) = 1; DCM.b(5,4,2) = 1; DCM.b(1,2,3) = 1; DCM.b(1,3,3) = 1; DCM.b(2,1,3) = 1; DCM.b(2,3,3) = 1; DCM.b(2,4,3) = 1; DCM.b(2,5,3) = 1; DCM.b(3,1,3) = 1; DCM.b(3,2,3) = 1; DCM.b(3,4,3) = 1; DCM.b(3,5,3) = 1; DCM.b(4,2,3) = 1; DCM.b(4,3,3) = 1; DCM.b(4,5,3) = 1; DCM.b(5,2,3) = 1; DCM.b(5,3,3) = 1; DCM.b(5,4,3) = 1;
+DCM.c = [0 1 1; 0 0 0; 0 1 1; 0 0 0; 0 0 0];
+DCM.d = zeros(5,5,0);
+
+save(fullfile(data_path,'DCM_model_1_1x1.mat'),'DCM');
+
+% SPECIFICATION DCM 2 - "2x2"
+%--------------------------------------------------------------------------
+
+DCM.b = zeros(5,5,3); DCM.b(1,2,2) = 1; DCM.b(1,3,2) = 1; DCM.b(2,1,2) = 1; DCM.b(2,3,2) = 1; DCM.b(2,4,2) = 1; DCM.b(2,5,2) = 1; DCM.b(3,1,2) = 1; DCM.b(3,2,2) = 1; DCM.b(3,4,2) = 1; DCM.b(3,5,2) = 1; DCM.b(4,2,2) = 1; DCM.b(4,3,2) = 1; DCM.b(5,2,2) = 1; DCM.b(5,3,2) = 1; DCM.b(1,2,3) = 1; DCM.b(1,3,3) = 1; DCM.b(2,1,3) = 1; DCM.b(2,3,3) = 1; DCM.b(2,4,3) = 1; DCM.b(2,5,3) = 1; DCM.b(3,1,3) = 1; DCM.b(3,2,3) = 1; DCM.b(3,4,3) = 1; DCM.b(3,5,3) = 1; DCM.b(4,2,3) = 1; DCM.b(4,3,3) = 1; DCM.b(5,2,3) = 1; DCM.b(5,3,3) = 1; 
+
+
+save(fullfile(data_path,'DCM_model_2_2x2.mat'),'DCM');
+
+% SPECIFICATION DCM 3 - "3x3"
+%--------------------------------------------------------------------------
+
+DCM.b = zeros(5,5,3); DCM.b(1,2,2) = 1; DCM.b(1,3,2) = 1; DCM.b(2,1,2) = 1; DCM.b(2,3,2) = 1; DCM.b(2,5,2) = 1; DCM.b(3,1,2) = 1; DCM.b(3,2,2) = 1; DCM.b(3,4,2) = 1; DCM.b(3,5,2) = 1; DCM.b(4,3,2) = 1; DCM.b(4,5,2) = 1; DCM.b(5,2,2) = 1; DCM.b(5,3,2) = 1; DCM.b(5,4,2) = 1; DCM.b(1,2,3) = 1; DCM.b(1,3,3) = 1; DCM.b(2,1,3) = 1; DCM.b(2,3,3) = 1; DCM.b(2,5,3) = 1; DCM.b(3,1,3) = 1; DCM.b(3,2,3) = 1; DCM.b(3,4,3) = 1; DCM.b(3,5,3) = 1; DCM.b(4,3,3) = 1; DCM.b(4,5,3) = 1; DCM.b(5,2,3) = 1; DCM.b(5,3,3) = 1; DCM.b(5,4,3) = 1;
+
+save(fullfile(data_path,'DCM_model_3_3x3.mat'),'DCM');
+
+% SPECIFICATION DCM 4 - "4x4"
+%--------------------------------------------------------------------------
+
+DCM.b = zeros(5,5,3); DCM.b(1,2,2) = 1; DCM.b(1,3,2) = 1; DCM.b(2,1,2) = 1; DCM.b(2,3,2) = 1; DCM.b(2,4,2) = 1; DCM.b(3,1,2) = 1; DCM.b(3,2,2) = 1; DCM.b(3,4,2) = 1; DCM.b(3,5,2) = 1; DCM.b(4,2,2) = 1; DCM.b(4,3,2) = 1; DCM.b(4,5,2) = 1; DCM.b(5,3,2) = 1; DCM.b(5,4,2) = 1; DCM.b(1,2,3) = 1; DCM.b(1,3,3) = 1; DCM.b(2,1,3) = 1; DCM.b(2,3,3) = 1; DCM.b(2,4,3) = 1; DCM.b(3,1,3) = 1; DCM.b(3,2,3) = 1; DCM.b(3,4,3) = 1; DCM.b(3,5,3) = 1; DCM.b(4,2,3) = 1; DCM.b(4,3,3) = 1; DCM.b(4,5,3) = 1; DCM.b(5,3,3) = 1; DCM.b(5,4,3) = 1;
+
+save(fullfile(data_path,'DCM_model_4_4x4.mat'),'DCM');
+
+% SPECIFICATION DCM 5 - "5x5"
+%--------------------------------------------------------------------------
+
+DCM.b = zeros(5,5,3); DCM.b(1,2,2) = 1; DCM.b(1,3,2) = 1; DCM.b(2,1,2) = 1; DCM.b(2,3,2) = 1; DCM.b(3,1,2) = 1; DCM.b(3,2,2) = 1; DCM.b(3,4,2) = 1; DCM.b(3,5,2) = 1; DCM.b(4,3,2) = 1; DCM.b(5,3,2) = 1; DCM.b(1,2,3) = 1; DCM.b(1,3,3) = 1; DCM.b(2,1,3) = 1; DCM.b(2,3,3) = 1; DCM.b(3,1,3) = 1; DCM.b(3,2,3) = 1; DCM.b(3,4,3) = 1; DCM.b(3,5,3) = 1; DCM.b(4,3,3) = 1; DCM.b(5,3,3) = 1; 
+
+save(fullfile(data_path,'DCM_model_5_5x5.mat'),'DCM');
