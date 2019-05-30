@@ -1,5 +1,5 @@
 # DCM_scripts
-These are scripts that I have edited or created for the creation of models for Dynamic causal modelling (DCM) in SPM12
+These are scripts that I have edited or created for the creation of models used in Dynamic causal modelling (DCM) for SPM12
 
 DCM is a method for inferring the effective connectivity of underlying neuronal structures from changes in hemodynamic flow. 
 
