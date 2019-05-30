@@ -1,0 +1,68 @@
+% Script to make DCM estimation text file 
+% This creates a text file which can be pasted into a estimation job to
+% save time
+
+%Change basepath to the directory in which all your participants are
+%located
+basepath = {'''/data/alecj/YMDD1/1_controls/'};
+
+%Where you want to save
+output = '''/data/alecj/YMDD1/1_controls/Group_level/estimation_1''';
+
+%Change id to your participants list
+id = {'H0001'
+'H0002'
+'H0003'
+'H0004'
+'H0005'
+};
+
+%Change DCM_Files to your model list
+DCM_Files = {
+    '/DCM_model_1_1x1.mat'''
+    '/DCM_model_2_2x2.mat'''
+    '/DCM_model_3_3x3.mat'''
+    '/DCM_model_4_4x4.mat'''
+    '/DCM_model_5_5x5.mat'''
+};
+
+fileID = fopen('control_model_estimation.txt','w+');
+ fprintf(fileID, '%%'); 
+ fprintf(fileID,'%%\n');
+ fprintf(fileID, 'matlabbatch{1}.cfg_basicio.file_dir.dir_ops.cfg_cd.dir = {');
+ fprintf(fileID, output);
+ fprintf(fileID, '};');
+ fprintf(fileID,'\n');
+ 
+for i = 1:length(id)
+    curr_id = id(i);
+ 
+    subject_num = i;
+
+fileID = fopen('control_model_estimation.txt','a+');    
+    fprintf(fileID, '%%');
+    fprintf(fileID,'%%\n');
+    fprintf(fileID,'matlabbatch{2}.spm.dcm.estimate.dcms.subj(');
+    fprintf(fileID, num2str(subject_num));
+    fprintf(fileID, ').dcmmat= {\n');
+    ne_id = strcat(basepath, curr_id);
+%This may also need to be changed depending on the structure of how your dcm models were saved 
+    new_id = strcat(ne_id, '/1st_level/DCM_Files');
+    
+for d = 1:length(DCM_Files)
+    curr_file = DCM_Files(d);
+    
+    printmodel = strcat(new_id, curr_file); 
+    
+    fprintf(fileID, string(printmodel));
+    fprintf(fileID, '\n');
+    
+end  
+ 
+ fprintf(fileID, '};');
+ fprintf(fileID, '\n');
+ 
+end
+
+
+fprintf('All finished')
