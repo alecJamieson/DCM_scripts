@@ -1,0 +1,46 @@
+clear all
+
+%Change to where the estimation is saved
+rootDIR         = '/data/alecj/YMDD1/1_controls/Group_level/estimation_1';
+
+%Change subject list
+subjects = {'H0001'
+'H0002'
+'H0003'
+'H0004'
+'H0005'
+};
+
+fileID = fopen('bma_name_a.txt','a+');
+fprintf(fileID, 'Participant');
+
+
+fileID = fopen('instrinsic_ofa_ffa.txt','a+');
+fprintf(fileID,'instrinsic_ofa_ffa');
+
+
+% make sure the scriptdir is in the path
+addpath(rootDIR);
+
+% Load .mats
+load(fullfile('BMS.mat'));
+
+% create a subject loop
+for s = 1:length(subjects)
+subject = subjects{s};
+
+fileID = fopen('bma_name_a.txt','a+');
+fprintf(fileID, '\n');
+fprintf(fileID, subject);
+
+fclose(fileID);
+
+% Note rfx will need to be change to ffx if fixed effects analysis was used. A(1,2) is the intrinsic connection from region 2 to region 1 
+x = BMS.DCM.rfx.bma.mEps{1,s}.A(1,2);
+fileID = fopen('instrinsic_ffa_ofa.txt','a+');
+fprintf(fileID, '\n');
+fprintf(fileID, " %f ", x);
+
+fclose(fileID);
+
+end
