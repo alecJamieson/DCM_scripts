@@ -1,0 +1,97 @@
+% VOI extractions script for Subject 1. The thresholding used for these
+% VOIs is consistent with Zeidman, P., Jafarian, A., Corbin, N., Seghier, 
+% M. L., Razi, A., Price, C. J., & Friston, K. J. (2019). A tutorial on 
+% group effective connectivity analysis, part 1: first level analysis with 
+% DCM for fMRI.
+% Contrast 8 is the Effects of Interest contrast e.g. eye(3)- this allows 
+% for stanormalising each of the VOI
+
+% Region 1
+matlabbatch{1}.spm.util.voi.spmmat = {'/data/alecj/YMDD1/1_controls/H0001/1st_level/'};
+matlabbatch{1}.spm.util.voi.adjust = 8;
+matlabbatch{1}.spm.util.voi.session = 1;
+matlabbatch{1}.spm.util.voi.name = 'R_OFA';
+matlabbatch{1}.spm.util.voi.roi{1}.spm.spmmat = {''};
+matlabbatch{1}.spm.util.voi.roi{1}.spm.contrast = 6;
+matlabbatch{1}.spm.util.voi.roi{1}.spm.conjunction = 1;
+matlabbatch{1}.spm.util.voi.roi{1}.spm.threshdesc = 'none';
+matlabbatch{1}.spm.util.voi.roi{1}.spm.thresh = 0.05;
+matlabbatch{1}.spm.util.voi.roi{1}.spm.extent = 5;
+matlabbatch{1}.spm.util.voi.roi{1}.spm.mask = struct('contrast', {}, 'thresh', {}, 'mtype', {});
+matlabbatch{1}.spm.util.voi.roi{2}.sphere.centre = [28 -92 -8];
+matlabbatch{1}.spm.util.voi.roi{2}.sphere.radius = 4;
+matlabbatch{1}.spm.util.voi.roi{2}.sphere.move.local.spm = 1;
+matlabbatch{1}.spm.util.voi.roi{2}.sphere.move.local.mask = '';
+matlabbatch{1}.spm.util.voi.expression = 'i1 & i2';
+
+% Region 2
+matlabbatch{2}.spm.util.voi.spmmat = {'/data/alecj/YMDD1/1_controls/H0001/1st_level/'};
+matlabbatch{2}.spm.util.voi.adjust = 8;
+matlabbatch{2}.spm.util.voi.session = 1;
+matlabbatch{2}.spm.util.voi.name = 'R_FFA';
+matlabbatch{2}.spm.util.voi.roi{1}.spm.spmmat = {''};
+matlabbatch{2}.spm.util.voi.roi{1}.spm.contrast = 6;
+matlabbatch{2}.spm.util.voi.roi{1}.spm.conjunction = 1;
+matlabbatch{2}.spm.util.voi.roi{1}.spm.threshdesc = 'none';
+matlabbatch{2}.spm.util.voi.roi{1}.spm.thresh = 0.05;
+matlabbatch{2}.spm.util.voi.roi{1}.spm.extent = 5;
+matlabbatch{2}.spm.util.voi.roi{1}.spm.mask = struct('contrast', {}, 'thresh', {}, 'mtype', {});
+matlabbatch{2}.spm.util.voi.roi{2}.sphere.centre = [40 -60 -18];
+matlabbatch{2}.spm.util.voi.roi{2}.sphere.radius = 4;
+matlabbatch{2}.spm.util.voi.roi{2}.sphere.move.local.spm = 1;
+matlabbatch{2}.spm.util.voi.roi{2}.sphere.move.local.mask = '';
+matlabbatch{2}.spm.util.voi.expression = 'i1 & i2';
+
+% Region 3
+matlabbatch{3}.spm.util.voi.spmmat = {'/data/alecj/YMDD1/1_controls/H0001/1st_level/'};
+matlabbatch{3}.spm.util.voi.adjust = 8;
+matlabbatch{3}.spm.util.voi.session = 1;
+matlabbatch{3}.spm.util.voi.name = 'R_AMY';
+matlabbatch{3}.spm.util.voi.roi{1}.spm.spmmat = {''};
+matlabbatch{3}.spm.util.voi.roi{1}.spm.contrast = 6;
+matlabbatch{3}.spm.util.voi.roi{1}.spm.conjunction = 1;
+matlabbatch{3}.spm.util.voi.roi{1}.spm.threshdesc = 'none';
+matlabbatch{3}.spm.util.voi.roi{1}.spm.thresh = 0.05;
+matlabbatch{3}.spm.util.voi.roi{1}.spm.extent = 5;
+matlabbatch{3}.spm.util.voi.roi{1}.spm.mask = struct('contrast', {}, 'thresh', {}, 'mtype', {});
+matlabbatch{3}.spm.util.voi.roi{2}.sphere.centre = [20 -6 -16];
+matlabbatch{3}.spm.util.voi.roi{2}.sphere.radius = 4;
+matlabbatch{3}.spm.util.voi.roi{2}.sphere.move.local.spm = 1;
+matlabbatch{3}.spm.util.voi.roi{2}.sphere.move.local.mask = '';
+matlabbatch{3}.spm.util.voi.expression = 'i1 & i2';
+
+% Region 4
+matlabbatch{4}.spm.util.voi.spmmat = {'/data/alecj/YMDD1/1_controls/H0001/1st_level/'};
+matlabbatch{4}.spm.util.voi.adjust = 8;
+matlabbatch{4}.spm.util.voi.session = 1;
+matlabbatch{4}.spm.util.voi.name = 'MFG';
+matlabbatch{4}.spm.util.voi.roi{1}.spm.spmmat = {''};
+matlabbatch{4}.spm.util.voi.roi{1}.spm.contrast = 6;
+matlabbatch{4}.spm.util.voi.roi{1}.spm.conjunction = 1;
+matlabbatch{4}.spm.util.voi.roi{1}.spm.threshdesc = 'none';
+matlabbatch{4}.spm.util.voi.roi{1}.spm.thresh = 0.05;
+matlabbatch{4}.spm.util.voi.roi{1}.spm.extent = 5;
+matlabbatch{4}.spm.util.voi.roi{1}.spm.mask = struct('contrast', {}, 'thresh', {}, 'mtype', {});
+matlabbatch{4}.spm.util.voi.roi{2}.sphere.centre = [50 26 20];
+matlabbatch{4}.spm.util.voi.roi{2}.sphere.radius = 4;
+matlabbatch{4}.spm.util.voi.roi{2}.sphere.move.local.spm = 1;
+matlabbatch{4}.spm.util.voi.roi{2}.sphere.move.local.mask = '';
+matlabbatch{4}.spm.util.voi.expression = 'i1 & i2';
+
+% Region 5
+matlabbatch{5}.spm.util.voi.spmmat = {'/data/alecj/YMDD1/1_controls/H0001/1st_level/'};
+matlabbatch{5}.spm.util.voi.adjust = 8;
+matlabbatch{5}.spm.util.voi.session = 1;
+matlabbatch{5}.spm.util.voi.name = 'vmPFC';
+matlabbatch{5}.spm.util.voi.roi{1}.spm.spmmat = {''};
+matlabbatch{5}.spm.util.voi.roi{1}.spm.contrast = 10;
+matlabbatch{5}.spm.util.voi.roi{1}.spm.conjunction = 1;
+matlabbatch{5}.spm.util.voi.roi{1}.spm.threshdesc = 'none';
+matlabbatch{5}.spm.util.voi.roi{1}.spm.thresh = 0.05;
+matlabbatch{5}.spm.util.voi.roi{1}.spm.extent = 5;
+matlabbatch{5}.spm.util.voi.roi{1}.spm.mask = struct('contrast', {}, 'thresh', {}, 'mtype', {});
+matlabbatch{5}.spm.util.voi.roi{2}.sphere.centre = [0 46 -2];
+matlabbatch{5}.spm.util.voi.roi{2}.sphere.radius = 4;
+matlabbatch{5}.spm.util.voi.roi{2}.sphere.move.local.spm = 1;
+matlabbatch{5}.spm.util.voi.roi{2}.sphere.move.local.mask = '';
+matlabbatch{5}.spm.util.voi.expression = 'i1 & i2';
