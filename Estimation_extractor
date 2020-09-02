@@ -1,7 +1,7 @@
 clear all
 
 %Change to where the estimation is saved
-rootDIR         = '/data/alecj/YMDD1/1_controls/Group_level/estimation_1';
+rootDIR         = 'path/estimation_1';
 
 %Change subject list
 subjects = {'H0001'
