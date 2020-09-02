@@ -4,10 +4,10 @@
 
 %Change basepath to the directory in which all your participants are
 %located
-basepath = {'''/data/alecj/YMDD1/1_controls/'};
+basepath = {'''/path/'};
 
 %Where you want to save
-output = '''/data/alecj/YMDD1/1_controls/Group_level/estimation_1''';
+output = '''/path/estimation_1''';
 
 %Change id to your participants list
 id = {'H0001'
