@@ -7,7 +7,7 @@
 % for stanormalising each of the VOI
 
 % Region 1
-matlabbatch{1}.spm.util.voi.spmmat = {'/data/alecj/YMDD1/1_controls/H0001/1st_level/'};
+matlabbatch{1}.spm.util.voi.spmmat = {'/path/H0001/1st_level/'};
 matlabbatch{1}.spm.util.voi.adjust = 8;
 matlabbatch{1}.spm.util.voi.session = 1;
 matlabbatch{1}.spm.util.voi.name = 'R_OFA';
@@ -25,7 +25,7 @@ matlabbatch{1}.spm.util.voi.roi{2}.sphere.move.local.mask = '';
 matlabbatch{1}.spm.util.voi.expression = 'i1 & i2';
 
 % Region 2
-matlabbatch{2}.spm.util.voi.spmmat = {'/data/alecj/YMDD1/1_controls/H0001/1st_level/'};
+matlabbatch{2}.spm.util.voi.spmmat = {'/path/H0001/1st_level/'};
 matlabbatch{2}.spm.util.voi.adjust = 8;
 matlabbatch{2}.spm.util.voi.session = 1;
 matlabbatch{2}.spm.util.voi.name = 'R_FFA';
@@ -43,7 +43,7 @@ matlabbatch{2}.spm.util.voi.roi{2}.sphere.move.local.mask = '';
 matlabbatch{2}.spm.util.voi.expression = 'i1 & i2';
 
 % Region 3
-matlabbatch{3}.spm.util.voi.spmmat = {'/data/alecj/YMDD1/1_controls/H0001/1st_level/'};
+matlabbatch{3}.spm.util.voi.spmmat = {'/path/H0001/1st_level/'};
 matlabbatch{3}.spm.util.voi.adjust = 8;
 matlabbatch{3}.spm.util.voi.session = 1;
 matlabbatch{3}.spm.util.voi.name = 'R_AMY';
@@ -61,7 +61,7 @@ matlabbatch{3}.spm.util.voi.roi{2}.sphere.move.local.mask = '';
 matlabbatch{3}.spm.util.voi.expression = 'i1 & i2';
 
 % Region 4
-matlabbatch{4}.spm.util.voi.spmmat = {'/data/alecj/YMDD1/1_controls/H0001/1st_level/'};
+matlabbatch{4}.spm.util.voi.spmmat = {'/path/H0001/1st_level/'};
 matlabbatch{4}.spm.util.voi.adjust = 8;
 matlabbatch{4}.spm.util.voi.session = 1;
 matlabbatch{4}.spm.util.voi.name = 'MFG';
@@ -79,7 +79,7 @@ matlabbatch{4}.spm.util.voi.roi{2}.sphere.move.local.mask = '';
 matlabbatch{4}.spm.util.voi.expression = 'i1 & i2';
 
 % Region 5
-matlabbatch{5}.spm.util.voi.spmmat = {'/data/alecj/YMDD1/1_controls/H0001/1st_level/'};
+matlabbatch{5}.spm.util.voi.spmmat = {'/path/H0001/1st_level/'};
 matlabbatch{5}.spm.util.voi.adjust = 8;
 matlabbatch{5}.spm.util.voi.session = 1;
 matlabbatch{5}.spm.util.voi.name = 'vmPFC';
